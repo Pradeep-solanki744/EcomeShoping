@@ -1,7 +1,6 @@
 import React from 'react';
 import { categories } from '../data/products';
 import { useShop } from '../context/ShopContext';
-import { SlidersHorizontal, ArrowUpDown } from 'lucide-react';
 
 export const CategoryFilter = () => {
   const {
@@ -15,26 +14,26 @@ export const CategoryFilter = () => {
   } = useShop();
 
   return (
-    <div id="catalog-section" className="space-y-6 pt-4 pb-2">
+    <div id="catalog-section" className="py-4 space-y-4">
       
-      {/* Section Title & Quick Controls */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      {/* Title & Filters Controls */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            Explore Catalog
+          <h2 className="text-xl font-bold text-gray-900">
+            Products ({filteredProducts.length})
           </h2>
-          <p className="text-sm text-slate-500 mt-0.5">
-            Showing <span className="font-bold text-slate-800">{filteredProducts.length}</span> curated items
+          <p className="text-xs text-gray-500">
+            Select a category or use filters to find items
           </p>
         </div>
 
-        {/* Sort & Price Filter Controls */}
-        <div className="flex flex-wrap items-center gap-3">
+        {/* Filter controls */}
+        <div className="flex flex-wrap items-center gap-3 text-xs">
           
           {/* Price Range */}
-          <div className="flex items-center gap-2 bg-white px-3.5 py-2 rounded-xl border border-slate-200 shadow-2xs text-xs font-medium text-slate-700">
-            <span className="text-slate-400">Max:</span>
-            <span className="font-bold text-rose-600">₹{maxPrice}</span>
+          <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-gray-300">
+            <span className="text-gray-600">Max Price:</span>
+            <span className="font-bold text-blue-600">₹{maxPrice}</span>
             <input
               type="range"
               min="400"
@@ -42,41 +41,41 @@ export const CategoryFilter = () => {
               step="100"
               value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
-              className="w-20 sm:w-28 accent-rose-500 cursor-pointer"
+              className="w-24 accent-blue-600 cursor-pointer"
             />
           </div>
 
-          {/* Sort Selector */}
-          <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-xl border border-slate-200 shadow-2xs">
-            <ArrowUpDown className="w-3.5 h-3.5 text-slate-400" />
+          {/* Sort */}
+          <div className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-gray-300">
+            <span className="text-gray-600">Sort by:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="text-xs font-semibold text-slate-700 bg-transparent focus:outline-none cursor-pointer"
+              className="bg-transparent font-medium text-gray-800 focus:outline-none cursor-pointer"
             >
-              <option value="popular">Most Popular</option>
-              <option value="rating">Highest Rated</option>
+              <option value="popular">Popularity</option>
+              <option value="rating">Rating</option>
               <option value="price-low">Price: Low to High</option>
               <option value="price-high">Price: High to Low</option>
-              <option value="newest">Newest Arrivals</option>
+              <option value="newest">Newest</option>
             </select>
           </div>
 
         </div>
       </div>
 
-      {/* Category Pills */}
-      <div className="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-none">
+      {/* Category Buttons */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1">
         {categories.map((cat) => {
           const isActive = selectedCategory === cat.id;
           return (
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}
-              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all cursor-pointer ${
+              className={`px-4 py-2 rounded-lg text-xs font-medium whitespace-nowrap border cursor-pointer ${
                 isActive
-                  ? 'bg-rose-500 text-white shadow-md shadow-rose-500/25 scale-102'
-                  : 'bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200/80'
+                  ? 'bg-blue-600 text-white border-blue-600'
+                  : 'bg-white text-gray-700 hover:bg-gray-100 border-gray-300'
               }`}
             >
               {cat.name}

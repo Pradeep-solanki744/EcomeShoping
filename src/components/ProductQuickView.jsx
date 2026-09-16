@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Star, Heart, ShoppingBag, Check, Shield, Truck, RotateCcw } from 'lucide-react';
+import { X, Star, Heart, ShoppingCart } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 
 export const ProductQuickView = () => {
@@ -33,92 +33,67 @@ export const ProductQuickView = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div
-        className="relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100 flex flex-col md:flex-row max-h-[90vh]"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+      <div className="relative w-full max-w-2xl bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 flex flex-col md:flex-row max-h-[90vh]">
+        
         {/* Close Button */}
         <button
           onClick={() => setQuickViewProduct(null)}
-          className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/80 hover:bg-slate-100 text-slate-700 shadow-xs cursor-pointer"
+          className="absolute top-3 right-3 z-10 p-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>
 
-        {/* Product Image Column */}
-        <div className="md:w-1/2 bg-slate-100 relative aspect-square md:aspect-auto">
+        {/* Product Image */}
+        <div className="md:w-1/2 bg-gray-100">
           <img
             src={quickViewProduct.image}
             alt={quickViewProduct.name}
             className="w-full h-full object-cover"
           />
-          {quickViewProduct.badge && (
-            <span className="absolute top-4 left-4 bg-rose-500 text-white text-xs font-extrabold uppercase px-3 py-1 rounded-full shadow-xs">
-              {quickViewProduct.badge}
-            </span>
-          )}
         </div>
 
-        {/* Product Info Column */}
-        <div className="md:w-1/2 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto space-y-6">
+        {/* Product Details */}
+        <div className="md:w-1/2 p-5 overflow-y-auto space-y-4 flex flex-col justify-between">
           
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-rose-500">
-                {quickViewProduct.category}
-              </span>
-              <div className="flex items-center gap-1 text-amber-500 text-xs font-bold">
-                <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                <span>{quickViewProduct.rating}</span>
-                <span className="text-slate-400">({quickViewProduct.reviewsCount} reviews)</span>
-              </div>
-            </div>
+          <div className="space-y-3">
+            <span className="text-xs font-semibold uppercase text-blue-600">
+              {quickViewProduct.category}
+            </span>
 
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 leading-snug">
+            <h2 className="text-lg font-bold text-gray-900">
               {quickViewProduct.name}
             </h2>
 
-            <div className="flex items-baseline gap-3">
-              <span className="text-2xl font-black text-slate-900">
+            <div className="flex items-center gap-2">
+              <span className="text-xl font-bold text-gray-900">
                 ₹{quickViewProduct.price}
               </span>
               {quickViewProduct.originalPrice && (
-                <span className="text-base text-slate-400 line-through">
+                <span className="text-xs text-gray-400 line-through">
                   ₹{quickViewProduct.originalPrice}
                 </span>
               )}
-              <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">
-                In Stock & Ready to Ship
-              </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            <p className="text-xs text-gray-600">
               {quickViewProduct.description}
             </p>
 
             {/* Colors */}
             {quickViewProduct.colors && (
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-800">
-                  Select Color:
-                </label>
-                <div className="flex items-center gap-2">
-                  {quickViewProduct.colors.map((color) => (
+              <div>
+                <label className="text-xs font-bold text-gray-700 block mb-1">Color:</label>
+                <div className="flex gap-2">
+                  {quickViewProduct.colors.map((c) => (
                     <button
-                      key={color}
-                      onClick={() => setSelectedColor(color)}
-                      style={{ backgroundColor: color }}
-                      className={`w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all cursor-pointer ${
-                        selectedColor === color
-                          ? 'border-rose-500 scale-110 shadow-sm ring-2 ring-rose-200'
-                          : 'border-white shadow-xs'
+                      key={c}
+                      onClick={() => setSelectedColor(c)}
+                      style={{ backgroundColor: c }}
+                      className={`w-6 h-6 rounded-full border-2 ${
+                        selectedColor === c ? 'border-blue-600 scale-110' : 'border-gray-300'
                       }`}
-                    >
-                      {selectedColor === color && (
-                        <Check className={`w-3.5 h-3.5 ${color === '#ffffff' ? 'text-slate-900' : 'text-white'}`} />
-                      )}
-                    </button>
+                    />
                   ))}
                 </div>
               </div>
@@ -126,86 +101,65 @@ export const ProductQuickView = () => {
 
             {/* Sizes */}
             {quickViewProduct.sizes && (
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-800">
-                  Select Size / Option:
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {quickViewProduct.sizes.map((size) => (
+              <div>
+                <label className="text-xs font-bold text-gray-700 block mb-1">Size:</label>
+                <div className="flex flex-wrap gap-1.5">
+                  {quickViewProduct.sizes.map((s) => (
                     <button
-                      key={size}
-                      onClick={() => setSelectedSize(size)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all cursor-pointer ${
-                        selectedSize === size
-                          ? 'border-rose-500 bg-rose-50 text-rose-600'
-                          : 'border-slate-200 text-slate-700 hover:border-slate-300'
+                      key={s}
+                      onClick={() => setSelectedSize(s)}
+                      className={`px-2.5 py-1 text-xs rounded border ${
+                        selectedSize === s
+                          ? 'border-blue-600 bg-blue-50 text-blue-600 font-bold'
+                          : 'border-gray-300 text-gray-700'
                       }`}
                     >
-                      {size}
+                      {s}
                     </button>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Quantity Selector */}
-            <div className="flex items-center gap-3 pt-1">
-              <span className="text-xs font-bold text-slate-800">Qty:</span>
-              <div className="flex items-center border border-slate-200 rounded-lg bg-slate-50">
+            {/* Quantity */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold text-gray-700">Quantity:</span>
+              <div className="flex items-center border border-gray-300 rounded">
                 <button
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="px-3 py-1 text-sm font-bold text-slate-600 hover:bg-slate-200 rounded-l-lg"
+                  className="px-2 py-0.5 text-xs font-bold text-gray-600 hover:bg-gray-100"
                 >
                   -
                 </button>
-                <span className="px-3 text-xs font-bold text-slate-800">{quantity}</span>
+                <span className="px-2 text-xs font-bold">{quantity}</span>
                 <button
                   onClick={() => setQuantity((q) => q + 1)}
-                  className="px-3 py-1 text-sm font-bold text-slate-600 hover:bg-slate-200 rounded-r-lg"
+                  className="px-2 py-0.5 text-xs font-bold text-gray-600 hover:bg-gray-100"
                 >
                   +
                 </button>
               </div>
             </div>
-
           </div>
 
           {/* Action Buttons */}
-          <div className="space-y-3 pt-3 border-t border-slate-100">
-            <div className="flex items-center gap-3">
-              <button
-                onClick={handleAddToCart}
-                className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-600 text-white font-bold py-3 px-6 rounded-xl shadow-lg shadow-rose-500/25 transition-all cursor-pointer"
-              >
-                <ShoppingBag className="w-4 h-4" />
-                <span>Add to Cart • ₹{quickViewProduct.price * quantity}</span>
-              </button>
+          <div className="flex items-center gap-2 pt-3 border-t border-gray-200">
+            <button
+              onClick={handleAddToCart}
+              className="flex-1 flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium py-2.5 px-4 rounded cursor-pointer"
+            >
+              <ShoppingCart className="w-4 h-4" />
+              <span>Add to Cart (₹{quickViewProduct.price * quantity})</span>
+            </button>
 
-              <button
-                onClick={() => toggleWishlist(quickViewProduct)}
-                className={`p-3 rounded-xl border transition-all cursor-pointer ${
-                  wishlisted
-                    ? 'border-rose-200 bg-rose-50 text-rose-500'
-                    : 'border-slate-200 hover:bg-slate-50 text-slate-700'
-                }`}
-                title="Save to wishlist"
-              >
-                <Heart className={`w-5 h-5 ${wishlisted ? 'fill-rose-500 text-rose-500' : ''}`} />
-              </button>
-            </div>
-
-            {/* Mini Trust Details */}
-            <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1">
-              <span className="flex items-center gap-1">
-                <Truck className="w-3.5 h-3.5 text-slate-400" /> Fast Dispatch
-              </span>
-              <span className="flex items-center gap-1">
-                <Shield className="w-3.5 h-3.5 text-slate-400" /> 100% Authentic
-              </span>
-              <span className="flex items-center gap-1">
-                <RotateCcw className="w-3.5 h-3.5 text-slate-400" /> 7 Days Return
-              </span>
-            </div>
+            <button
+              onClick={() => toggleWishlist(quickViewProduct)}
+              className={`p-2.5 rounded border border-gray-300 ${
+                wishlisted ? 'text-red-500 bg-red-50' : 'text-gray-700 hover:bg-gray-50'
+              }`}
+            >
+              <Heart className={`w-4 h-4 ${wishlisted ? 'fill-red-500' : ''}`} />
+            </button>
           </div>
 
         </div>
